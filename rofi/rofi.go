@@ -4,6 +4,7 @@ import (
 	"fmt"
 	yaml "gopkg.in/yaml.v2"
 	"io/ioutil"
+	"os/exec"
 )
 
 type Option interface {
@@ -32,6 +33,16 @@ func ReadYamlFile(path string, out interface{}) error {
 		return err
 	}
 	return yaml.Unmarshal([]byte(content), out)
+}
+
+func ExecProcess(cmd string, args ...string) error {
+	path, err := exec.LookPath(cmd)
+	if err != nil {
+		return err
+	}
+
+	args = append([]string{cmd}, args...)
+	return exec.Command(path, args...).Start()
 }
 
 func Exec(opts []Option, args []string) {

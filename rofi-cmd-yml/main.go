@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/mluts/rofi-scripts/rofi"
 	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -23,7 +22,7 @@ func (o *UrlOption) Match(name string) bool {
 }
 
 func (o *UrlOption) Activate() {
-	exec.Command("/bin/bash", "-lc", o.Val).Run()
+	rofi.ExecProcess("nohup", "bash", "-lc", o.Val)
 }
 
 func (o *UrlOption) Format() {
